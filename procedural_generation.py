@@ -37,11 +37,11 @@ def add_things_to_inside_procedural_generation(dictionary_for_inside_room):
         array_for_binary = list_of_xs
         array_for_binary.sort()
         found = binary_search_procedural_generation(array_for_binary,actual_x+1)
-        if found == "found":
+        if found:
             array_for_binary = dictionary_for_inside_room[actual_x+1]
             array_for_binary.sort()
             found = binary_search_procedural_generation(array_for_binary,actual_y+1)
-            if found == "found":
+            if found:
                 has_staircase_spawned = False
                 stuff_inside_the_rooms["Staircase"].append([actual_x*75,actual_y*75])
     return stuff_inside_the_rooms
@@ -78,7 +78,7 @@ def combine_walls(dictionary_for_walls_procedural):
             array_sorted_for_binary = dictionary_for_walls_procedural[first_position]
             array_sorted_for_binary.sort()
             found = binary_search_procedural_generation(array_sorted_for_binary,current_y_h+1)
-            if found == "found":
+            if found:
                 current_y_h += 1
                 width_horizontal += 1
                 horizontal_to_remove.append([current_x_h,current_y_h])
@@ -89,7 +89,7 @@ def combine_walls(dictionary_for_walls_procedural):
             array_sorted_for_binary = dictionary_for_walls_procedural[first_position]
             array_sorted_for_binary.sort()
             found = binary_search_procedural_generation(array_sorted_for_binary, y_h - 1)
-            if found == "found":
+            if found:
                 y_h -= 1
                 width_horizontal += 1
                 horizontal_to_remove.append([x_h,y_h])
@@ -98,11 +98,11 @@ def combine_walls(dictionary_for_walls_procedural):
         forwards_vertical_check = True
         while forwards_vertical_check:
             found = binary_search_procedural_generation(list_of_keys_in_order,current_x_v+1)
-            if found == "found":
+            if found:
                 array_sorted_for_binary = dictionary_for_walls_procedural[current_x_v+1]
                 array_sorted_for_binary.sort()
                 found = binary_search_procedural_generation(array_sorted_for_binary,current_y_v)
-                if found == "found":
+                if found:
                     current_x_v += 1
                     height_vertical += 1
                     vertical_to_remove.append([current_x_v,current_y_v])
@@ -113,11 +113,11 @@ def combine_walls(dictionary_for_walls_procedural):
         backwards_vertical_check = True
         while backwards_vertical_check:
             found = binary_search_procedural_generation(list_of_keys_in_order,x_v-1)
-            if found == "found":
+            if found:
                 array_sorted_for_binary = dictionary_for_walls_procedural[x_v-1]
                 array_sorted_for_binary.sort()
                 found = binary_search_procedural_generation(array_sorted_for_binary,y_v)
-                if found == "found":
+                if found:
                     x_v -= 1
                     height_vertical += 1
                     vertical_to_remove.append([x_v,y_v])
@@ -132,7 +132,7 @@ def combine_walls(dictionary_for_walls_procedural):
                 if not dictionary_for_walls_procedural[keys[0]]:
                     del dictionary_for_walls_procedural[keys[0]]
                     found = binary_search_procedural_generation(list_of_keys_in_order,keys[0])
-                    if found == "found":
+                    if found:
                         list_of_keys_in_order.remove(keys[0])
         else:
             walls_to_be_sent_for_conversion.append([x_h*magnifier_procedural_generation,y_h*magnifier_procedural_generation,magnifier_procedural_generation,width_horizontal*magnifier_procedural_generation])
@@ -157,11 +157,11 @@ def repeat_for_create_corridor_walls(dictionary_for_binary,keys,key,can_wall_blo
         array_sorted = list(dictionary_for_binary)
         array_sorted.sort()
         found = binary_search_procedural_generation(array_sorted,keys)
-        if found == "found":
+        if found:
             array_sorted_2 = dictionary_for_binary[keys]
             array_sorted_2.sort()
             found = binary_search_procedural_generation(array_sorted_2,key)
-            if found == "found":
+            if found:
                 return False
     else:
         return False
@@ -181,7 +181,7 @@ def place_the_wall(dictionary_for_walls_procedural,keys,key,can_wall_block_be_pl
         array_sorted = list(dictionary_for_walls_procedural)
         array_sorted.sort()
         found = binary_search_procedural_generation(array_sorted, keys)
-        if found == "found":
+        if found:
             dictionary_for_walls_procedural[keys].append(key)
         else:
             dictionary_for_walls_procedural[keys] = [key]
@@ -235,13 +235,13 @@ def place_the_doorway_wall(can_wall_block_be_placed,walls_destroyed_from_doorway
         array_sorted = list(walls_destroyed_from_doorway)
         array_sorted.sort()
         found = binary_search_procedural_generation(array_sorted,keys)
-        if found == "not found":
+        if not found:
             place_the_wall(dictionary_for_walls_procedural,keys,key,can_wall_block_be_placed)
         else:
             array_sorted = walls_destroyed_from_doorway[keys]
             array_sorted.sort()
             found = binary_search_procedural_generation(array_sorted,key)
-            if found == "not found":
+            if not found:
                 place_the_wall(dictionary_for_walls_procedural,keys,key,can_wall_block_be_placed)
 
 """ Name: more_precise_doorway_walls
@@ -292,7 +292,7 @@ def adding_to_dictionary(dictionary_that_needs_the_adding,keys,key):
     array_sorted = list(dictionary_that_needs_the_adding)
     array_sorted.sort()
     found = binary_search_procedural_generation(array_sorted,keys)
-    if found == "found":
+    if found:
         dictionary_that_needs_the_adding[keys].append(key)
     else:
         dictionary_that_needs_the_adding[keys] = [key]
@@ -355,20 +355,20 @@ def get_rid_of_extra_corridor(permanent_dictionary_for_corridor,dictionary_for_d
                     if key - 1 >= list(permanent_dictionary_for_corridor)[0]:
                         if permanent_dictionary_for_corridor[key-1]:
                             found = binary_search_procedural_generation(permanent_dictionary_for_corridor[key-1],keys)
-                            if found == "found":
+                            if found:
                                 i += 1
                     if key + 1 <= list(permanent_dictionary_for_corridor)[len(list(permanent_dictionary_for_corridor))-1]:
                         if permanent_dictionary_for_corridor[key+1]:
                             found = binary_search_procedural_generation(permanent_dictionary_for_corridor[key+1],keys)
-                            if found == "found":
+                            if found:
                                 i += 1
                     if permanent_dictionary_for_corridor[key]:
                         found = binary_search_procedural_generation(permanent_dictionary_for_corridor[key],keys-1)
-                        if found == "found":
+                        if found:
                             i += 1
                     if permanent_dictionary_for_corridor[key]:
                         found = binary_search_procedural_generation(permanent_dictionary_for_corridor[key],keys+1)
-                        if found == "found":
+                        if found:
                             i += 1
                     for doorway_key in dictionary_for_doorway:
                         for second_doorway_key in dictionary_for_doorway[doorway_key]:
@@ -391,11 +391,11 @@ def repeat_of_rid_extra_doorway(i,permanent_dictionary_for_corridor,keys,key):
     array_sorted = list(permanent_dictionary_for_corridor)
     array_sorted.sort()
     found = binary_search_procedural_generation(array_sorted, keys)
-    if found == "found":
+    if found:
         array_sorted = permanent_dictionary_for_corridor[keys]
         array_sorted.sort()
         found = binary_search_procedural_generation(array_sorted,key)
-        if found == "found":
+        if found:
             i += 1
     return i
 
@@ -441,7 +441,7 @@ def more_precise_creation_doorways(side_y,side_x,x_number,y_number,permanent_dic
                                               permanent_dictionary_for_corridor_with_id,corridor_id_checked):
         if permanent_dictionary_for_corridor[side_x + x_number]:
             found = binary_search_procedural_generation(permanent_dictionary_for_corridor[side_x + x_number],side_y + y_number)
-            if found == "found":
+            if found:
                 corridor_id_2 = permanent_dictionary_for_corridor_with_id[side_x + x_number][side_y+y_number]
                 if not corridor_id_checked:
                     corridor_id_checked[corridor_id_2] = [[side_x + int(x_number/2), side_y+int(y_number/2)]]
@@ -545,7 +545,7 @@ def corridor_check_availability(x,y,permanent_dictionary_for_corridor_with_id,co
     array_sorted = list(permanent_dictionary_for_corridor_with_id)
     array_sorted.sort()
     found = binary_search_procedural_generation(array_sorted,x)
-    if found == "found":
+    if found:
         permanent_dictionary_for_corridor_with_id[x][y] = corridor_id
     else:
         permanent_dictionary_for_corridor_with_id[x] = {}
@@ -563,15 +563,15 @@ def corridor_check_availability(x,y,permanent_dictionary_for_corridor_with_id,co
 def more_precise_creation_corridor(dictionary_for_open_spaces,x,y,x_number,y_number,permanent_dictionary_for_corridor):
     if dictionary_for_open_spaces[x + x_number]:
         found = binary_search_procedural_generation(dictionary_for_open_spaces[x + x_number], y)
-        if found == "found":
+        if found:
             check_availability = True
             if permanent_dictionary_for_corridor[x + x_number]:
                 permanent_dictionary_for_corridor[x + x_number].sort()
                 found = binary_search_procedural_generation(permanent_dictionary_for_corridor[x + x_number], y - 1)
-                if found == "found":
+                if found:
                     check_availability = False
                 found = binary_search_procedural_generation(permanent_dictionary_for_corridor[x + x_number], y + 1)
-                if found == "found":
+                if found:
                     check_availability = False
             return check_availability
 
@@ -589,7 +589,7 @@ def loops_allowed(x,y,x_number,y_number,permanent_dictionary_for_corridor,check_
         array_ordered = permanent_dictionary_for_corridor[x + x_number]
         array_ordered.sort()
         found = binary_search_procedural_generation(array_ordered, y+y_number)
-        if found == "found":
+        if found:
             check_availability = False
         return check_availability
 
@@ -665,19 +665,19 @@ def create_corridors(dictionary_for_open_spaces,permanent_dictionary_for_corrido
             if dictionary_for_open_spaces[x]:
                 if direction == 2:
                     found = binary_search_procedural_generation(dictionary_for_open_spaces[x],y+1)
-                    if found == "found":
+                    if found:
                         check_availability = True
                         if x - 1 >= list(permanent_dictionary_for_corridor)[0]:
                             if permanent_dictionary_for_corridor[x-1]:
                                 permanent_dictionary_for_corridor[x-1].sort()
                                 found = binary_search_procedural_generation(permanent_dictionary_for_corridor[x-1],y+1)
-                                if found == "found":
+                                if found:
                                     check_availability = False
                         if x + 1 <= list(permanent_dictionary_for_corridor)[len(permanent_dictionary_for_corridor) - 1]:
                             if permanent_dictionary_for_corridor[x+1]:
                                 permanent_dictionary_for_corridor[x+1].sort()
                                 found = binary_search_procedural_generation(permanent_dictionary_for_corridor[x+1],y+1)
-                                if found == "found":
+                                if found:
                                     check_availability = False
                         if check_availability:
                             if chance_of_loops_allowed != 0:
@@ -695,19 +695,19 @@ def create_corridors(dictionary_for_open_spaces,permanent_dictionary_for_corrido
                         direction_array.remove(direction)
                 elif direction == 4:
                     found = binary_search_procedural_generation(dictionary_for_open_spaces[x],y-1)
-                    if found == "found":
+                    if found:
                         check_availability = True
                         if x - 1 >= list(permanent_dictionary_for_corridor)[0]:
                             if permanent_dictionary_for_corridor[x - 1]:
                                 permanent_dictionary_for_corridor[x - 1].sort()
                                 found = binary_search_procedural_generation(permanent_dictionary_for_corridor[x - 1],y - 1)
-                                if found == "found":
+                                if found:
                                     check_availability = False
                         if x + 1 <= list(permanent_dictionary_for_corridor)[len(permanent_dictionary_for_corridor) - 1]:
                             if permanent_dictionary_for_corridor[x + 1]:
                                 permanent_dictionary_for_corridor[x + 1].sort()
                                 found = binary_search_procedural_generation(permanent_dictionary_for_corridor[x + 1],y - 1)
-                                if found == "found":
+                                if found:
                                     check_availability = False
                         if check_availability:
                             if chance_of_loops_allowed != 0:
@@ -730,19 +730,19 @@ def create_corridors(dictionary_for_open_spaces,permanent_dictionary_for_corrido
                 if x-1 >= list(dictionary_for_open_spaces)[0]:
                     if dictionary_for_open_spaces[x-1]:
                         found = binary_search_procedural_generation(dictionary_for_open_spaces[x-1],y)
-                        if found == "found":
+                        if found:
                             dictionary_for_open_spaces[x-1].remove(y)
                 if x+1 <= list(dictionary_for_open_spaces)[len(dictionary_for_open_spaces)-1]:
                     if dictionary_for_open_spaces[x+1]:
                         found = binary_search_procedural_generation(dictionary_for_open_spaces[x+1],y)
-                        if found == "found":
+                        if found:
                             dictionary_for_open_spaces[x+1].remove(y)
                 if dictionary_for_open_spaces[x]:
                     found = binary_search_procedural_generation(dictionary_for_open_spaces[x],y+1)
-                    if found == "found":
+                    if found:
                         dictionary_for_open_spaces[x].remove(y+1)
                     found = binary_search_procedural_generation(dictionary_for_open_spaces[x],y-1)
-                    if found == "found":
+                    if found:
                         dictionary_for_open_spaces[x].remove(y-1)
                 array_corridor_creation.pop(len(array_corridor_creation)-1)
 
@@ -778,7 +778,7 @@ def spawn_root_corridor(how_many_left,how_many_right,how_many_up,how_many_down,d
             y = random.randint(how_many_up,how_many_down)
             if dictionary_for_open_spaces[x]:
                 found = binary_search_procedural_generation(dictionary_for_open_spaces[x],y)
-                if found == "found":
+                if found:
                     corridor_id += 1
                     if not permanent_dictionary_for_corridor_with_id:
                         permanent_dictionary_for_corridor_with_id[x] = {}
@@ -815,8 +815,8 @@ def binary_search_procedural_generation(array,number_that_needs_to_be_found):
         elif array[mid_point] > number_that_needs_to_be_found:
             top_number = mid_point - 1
         else:
-            return "found"
-    return "not found"
+            return True
+    return False
 
 """ Name: create_room
     Parameters: dictionary_for_procedural_generation = dictionary,
@@ -844,49 +844,49 @@ def create_room(dictionary_for_procedural_generation,dictionary_for_procedural_g
                 array_for_binary = list(dictionary_for_walls_procedural).copy()
                 array_for_binary.sort()
                 found = binary_search_procedural_generation(array_for_binary,x)
-                if found == "found":
+                if found:
                     dictionary_for_walls_procedural[x].append(y)
                 else:
                     dictionary_for_walls_procedural[x] = [y]
             else:
                 adding_to_dictionary(dictionary_for_inside_room,x,y)
             found = binary_search_procedural_generation(dictionary_for_open_spaces[x],y)
-            if found == "found":
+            if found:
                 dictionary_for_open_spaces[x].remove(y)
             if dictionary_for_open_spaces[x]:
                 if y == random_y:
                     found = binary_search_procedural_generation(dictionary_for_open_spaces[x],(y-1))
-                    if found == "found":
+                    if found:
                         dictionary_for_open_spaces[x].remove(y-1)
                 elif y == random_y + height_of_room:
                     found = binary_search_procedural_generation(dictionary_for_open_spaces[x],(y+1))
-                    if found == "found":
+                    if found:
                         dictionary_for_open_spaces[x].remove(y+1)
                 if x - 1 >= list(dictionary_for_open_spaces)[0]:
                     if x == random_x and dictionary_for_open_spaces[x-1]:
                         found = binary_search_procedural_generation(dictionary_for_open_spaces[x-1],y)
-                        if found == "found":
+                        if found:
                             dictionary_for_open_spaces[x-1].remove(y)
                         if y == random_y:
                             found = binary_search_procedural_generation(dictionary_for_open_spaces[x-1],y-1)
-                            if found == "found":
+                            if found:
                                 dictionary_for_open_spaces[x-1].remove(y-1)
                         if y == random_y + height_of_room:
                             found = binary_search_procedural_generation(dictionary_for_open_spaces[x-1],y+1)
-                            if found == "found":
+                            if found:
                                 dictionary_for_open_spaces[x-1].remove(y+1)
                 if x + 1 <= list(dictionary_for_open_spaces)[len(dictionary_for_open_spaces) - 1]:
                     if x == random_x + width_of_room and dictionary_for_open_spaces[x+1]:
                         found = binary_search_procedural_generation(dictionary_for_open_spaces[x+1],y)
-                        if found == "found":
+                        if found:
                             dictionary_for_open_spaces[x+1].remove(y)
                         if y == random_y:
                             found = binary_search_procedural_generation(dictionary_for_open_spaces[x+1],y-1)
-                            if found == "found":
+                            if found:
                                 dictionary_for_open_spaces[x+1].remove(y-1)
                         if y == random_y + height_of_room:
                             found = binary_search_procedural_generation(dictionary_for_open_spaces[x+1],y+1)
-                            if found == "found":
+                            if found:
                                 dictionary_for_open_spaces[x+1].remove(y+1)
     return block_of_wall_id,inside_block_id,room_id
 
@@ -906,8 +906,8 @@ def binary_search_with_higher_and_lower(array_to_be_found,lower_boundary,higher_
         elif array_to_be_found[mid_point] > higher_boundary:
             top_number = mid_point - 1
         else:
-            return "found"
-    return "not found"
+            return True
+    return False
 
 """ Name: spawn_top_left_corner_of_room
     Parameters: how_many_right = integer,how_many_left = integer,how_many_up = integer,how_many_down = integer,
@@ -966,11 +966,11 @@ def spawn_top_left_corner_of_room(how_many_right,how_many_left,how_many_up,how_m
                     array_for_binary = list(dictionary_for_inside_room)
                     array_for_binary.sort()
                     found = binary_search_procedural_generation(array_for_binary,random_x)
-                    if found == "found":
+                    if found:
                         array_for_binary = dictionary_for_inside_room[random_x]
                         array_for_binary.sort()
                         found = binary_search_procedural_generation(array_for_binary,random_x)
-                        if found == "found":
+                        if found:
                             true = False
             if true:
                 room_id += 1
@@ -1024,7 +1024,7 @@ def spawn_spawning_room():
                     dictionary_for_walls_procedural[x] = [y]
                 else:
                     found = binary_search_procedural_generation(list(dictionary_for_walls_procedural),x)
-                    if found == "found":
+                    if found:
                         dictionary_for_walls_procedural[x].append(y)
                     else:
                         dictionary_for_walls_procedural[x] = [y]

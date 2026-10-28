@@ -264,8 +264,8 @@ def binary_search_algorithm(array,number_that_needs_to_be_found,adjustment_for_w
         elif array[mid_point] + adjustment_for_walls > number_that_needs_to_be_found:
             top_number = mid_point - 1
         else:
-            return "found"
-    return "not found"
+            return True
+    return False
 
 """Name: wall
     Purpose: This creates a wall so that the players and enemies can not walk past it. It is the principle of each
@@ -984,64 +984,64 @@ class Enemies_Class(pygame.sprite.Sprite):
                             array_for_binary = list(dictionary_for_walls[str(self._magnifier)]["Left"]) #this sets the array for binary
                             found = binary_search_algorithm(array_for_binary,node_position[0]-x_adjustment_for_walls_inside_astar)#this does the binary search to see if the top would be in the wall
                             key_for_astar = node_position[0]-x_adjustment_for_walls_inside_astar#this makes the thing being searched for into a shorter variable
-                            if found == "not found":#it checks to see if the number is not inside the astar
+                            if not found:#it checks to see if the number is not inside the astar
                                 found = binary_search_algorithm(array_for_binary,node_position_add_character_length_2[0]-x_adjustment_for_walls_inside_astar)#this does another binary search to see if the bottom
                                 #would be inside the wall
                                 key_for_astar = node_position_add_character_length_2[0]-x_adjustment_for_walls_inside_astar# this makes the thing being searched for into a shorter variable
-                            if found == "found": # this is the alternative if there is a number or if there wasnt is there was one with the new binary search
+                            if found: # this is the alternative if there is a number or if there wasnt is there was one with the new binary search
                                 check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Left"][key_for_astar],node_position[1],y_adjustment_for_walls_inside_astar)#this does the binary search to see
                                 #if the left would be in the wall
-                                if check == "found":# this sees if the number was in the list
+                                if check:# this sees if the number was in the list
                                     true = False #this sets the switch to False meaning it cant be set back to True now
                                 else:#this goes off if the number isnt in the binary
                                     check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Left"][key_for_astar],node_position_add_character_length_2[1],y_adjustment_for_walls_inside_astar)# this
                                     #binary search checks to see if the right would be in the wall
-                                    if check == "found":# this sees if the enemy would in the wall
+                                    if check:# this sees if the enemy would in the wall
                                         true = False #this sets true to False and now true cant be set back to True
                         if i == 1: #this sees if the x position is 1
                             array_for_binary = list(dictionary_for_walls[str(self._magnifier)]["Right"]) # this puts the list into a simpilar variable
                             found = binary_search_algorithm(array_for_binary,node_position_add_character_length_1[0] - x_adjustment_for_walls_inside_astar)#this checks to see if the top of the player is in the wall
                             key_for_astar = node_position_add_character_length_1[0] - x_adjustment_for_walls_inside_astar #this makes the thing being searched for into a shorter variable
-                            if found == "not found": #this sees if the number was not in the list
+                            if not found: #this sees if the number was not in the list
                                 found = binary_search_algorithm(array_for_binary,node_position_add_character_length_3[0]-x_adjustment_for_walls_inside_astar)#this does a binary search to see if the bottom bit is in the wall
                                 key_for_astar = node_position_add_character_length_3[0]-x_adjustment_for_walls_inside_astar#this makes the thing being searched into a shorter variable
-                            if found == "found": #this is the alternative if there is a number or if there wasnt is there was one with the new binary search
+                            if found: #this is the alternative if there is a number or if there wasnt is there was one with the new binary search
                                 check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Right"][key_for_astar], node_position[1],y_adjustment_for_walls_inside_astar)#this checks to see if the bottom is inside the wall
-                                if check == "found":#this sees if the number is inside the list
+                                if check:#this sees if the number is inside the list
                                     true = False#this sets true to False and now it cant be True
                                 else:#this sees if the number is not in the list
                                     check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Right"][key_for_astar], node_position_add_character_length_3[1],y_adjustment_for_walls_inside_astar)#this checks to see if the right is in the wall
-                                    if check == "found": #this sees if there is one to the right
+                                    if check: #this sees if there is one to the right
                                         true = False# this sets true to False and now it cant be True
                         if t == -1 and true: #this sees if t is -1 meaning that it will check the one up from the current block it will also see if true is True as if it was False it would not be able to be True again so it would be a waste of time and effiectency to set it to False again
                             array_for_binary = list(dictionary_for_walls[str(self._magnifier)]["Up"]) #this shortens the list into a simpliar variable
                             found = binary_search_algorithm(array_for_binary,node_position[1] - y_adjustment_for_walls_inside_astar) #
                             key_for_astar = node_position[1] - y_adjustment_for_walls_inside_astar
-                            if found == "not found":
+                            if not found:
                                 found = binary_search_algorithm(array_for_binary,node_position_add_character_length_3[1]-y_adjustment_for_walls_inside_astar)
                                 key_for_astar = node_position_add_character_length_3[1]-y_adjustment_for_walls_inside_astar
-                            if found == "found":
+                            if found:
                                 check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Up"][key_for_astar], node_position[0],x_adjustment_for_walls_inside_astar)
-                                if check == "found":
+                                if check:
                                     true = False
                                 else:
                                     check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Up"][key_for_astar],node_position_add_character_length_3[0],x_adjustment_for_walls_inside_astar)
-                                    if check == "found":
+                                    if check:
                                         true = False
                         if t == 1 and true:
                             array_for_binary = list(dictionary_for_walls[str(self._magnifier)]["Down"])
                             found = binary_search_algorithm(array_for_binary,node_position_add_character_length_1[1] - y_adjustment_for_walls_inside_astar)
                             key_for_astar = node_position_add_character_length_1[1] - y_adjustment_for_walls_inside_astar
-                            if found == "not found":
+                            if not found:
                                 found = binary_search_algorithm(array_for_binary, node_position_add_character_length_2[1] - y_adjustment_for_walls_inside_astar)
                                 key_for_astar = node_position_add_character_length_2[1] - y_adjustment_for_walls_inside_astar
-                            if found == "found":
+                            if found:
                                 check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Down"][key_for_astar],node_position[0],x_adjustment_for_walls_inside_astar)
-                                if check == "found":
+                                if check:
                                     true = False
                                 else:
                                     check = binary_search_algorithm(dictionary_for_walls[str(self._magnifier)]["Down"][key_for_astar],node_position_add_character_length_2[0],x_adjustment_for_walls_inside_astar)
-                                    if check == "found":
+                                    if check:
                                         true = False
                         if true:
                             new_node = Node(current_node,node_position)
